@@ -27,13 +27,6 @@
                     "border": "#e6e6e6",
                     "scale": 1
                 },
-                { "pagebreak": true },
-                {
-                    "table": "input/data/Users per department per year.csv",
-                    "description": "Table: Users per department per year.",
-                    "delimiter": ";"
-                },
-                { "pagebreak": true },
                 { "header2": "Revenue per year" },
                 {
                     "graph": "linechart",
@@ -46,13 +39,6 @@
                     "border": "#e6e6e6",
                     "scale": 1
                 },
-                { "pagebreak": true },
-                {
-                    "table": "input/data/Revenue per year.csv",
-                    "description": "Table: Revenue per year.",
-                    "delimiter": ";"
-                },
-                { "pagebreak": true },
                 { "header2": "Users by department" },
                 {
                     "graph": "barchart",
@@ -65,13 +51,6 @@
                     "border": "#e6e6e6",
                     "scale": 1
                 },
-                { "pagebreak": true },
-                {
-                    "table": "input/data/Users by department.csv",
-                    "description": "Table: Users by department.",
-                    "delimiter": ";"
-                },
-                { "pagebreak": true },
                 { "header2": "Expenses per department per year" },
                 {
                     "graph": "barchart",
@@ -86,6 +65,22 @@
                     "scale": 1
                 },
                 { "pagebreak": true },
+                { "header1": "Tables" },
+                {
+                    "table": "input/data/Users per department per year.csv",
+                    "description": "Table: Users per department per year.",
+                    "delimiter": ";"
+                },
+                {
+                    "table": "input/data/Revenue per year.csv",
+                    "description": "Table: Revenue per year.",
+                    "delimiter": ";"
+                },
+                {
+                    "table": "input/data/Users by department.csv",
+                    "description": "Table: Users by department.",
+                    "delimiter": ";"
+                },
                 {
                     "table": "input/data/Expenses per department per year.csv",
                     "description": "Table: Expenses per department per year.",
