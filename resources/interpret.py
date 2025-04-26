@@ -23,14 +23,14 @@ def interpret(item, path, filter_column=None, filter_value=None):
         print(f"[PYTHON][interpret.py] Running graph()")
         graph = _graph(dataframe, item, path, filter_column, filter_value)
         print(f"[PYTHON][interpret.py] Returning graph")
-        return graph
+        return '\n\n'.join([graph, f'_{item["description"]}_\n'])
 
     if item.get("table"):
         dataframe = read_csv(item["table"], item["delimiter"], filter_column, filter_value)
         print(f"[PYTHON][interpret.py] Running table()")
         table = _table(dataframe, item, path, filter_column, filter_value)
         print(f"[PYTHON][interpret.py] Returning table")
-        return table
+        return '\n\n'.join([table, f'_{item["description"]}_\n'])
 
     if item.get("paragraph"):
         print(f"[PYTHON][interpret.py] Returning paragraph")
