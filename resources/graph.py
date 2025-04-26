@@ -4,7 +4,7 @@ import numpy as np
 
 def graph(dataframe, item, path, filter_column=None, filter_value=None):
     
-    # Get graph parameters
+    print(f"[PYTHON][graph.py] Get graph parameters")
     x = item.get('x')
     y = item.get('y')
     legend = item.get('legend')
@@ -14,7 +14,7 @@ def graph(dataframe, item, path, filter_column=None, filter_value=None):
     img_path = os.path.join(path, img_name)
     scale = item.get("scale", 1)
 
-    # Create figure
+    print(f"[PYTHON][graph.py] Create figure")
     fig = plt.figure(
         figsize=(10 * scale, 6 * scale),
         facecolor=item.get("background", "white")
@@ -22,7 +22,7 @@ def graph(dataframe, item, path, filter_column=None, filter_value=None):
     fig.patch.set_edgecolor(item.get("border", 'black'))
     fig.patch.set_linewidth(1 * scale)
 
-    # Plot graph
+    print(f"[PYTHON][graph.py] Plot graph")
     if graph_type == 'linechart':
 
         if legend and legend in dataframe.columns:
@@ -35,7 +35,7 @@ def graph(dataframe, item, path, filter_column=None, filter_value=None):
     elif graph_type == 'barchart':
 
         if legend and legend in dataframe.columns:
-            # Grouped bar chart
+            print(f"[PYTHON][graph.py] Grouped bar chart")
             unique_legends = dataframe[legend].unique()
             x_vals = dataframe[x].unique()
             x_indices = np.arange(len(x_vals))
@@ -49,7 +49,7 @@ def graph(dataframe, item, path, filter_column=None, filter_value=None):
         else:
             plt.bar(dataframe[x], dataframe[y])
 
-    # Add labels
+    print(f"[PYTHON][graph.py] Add labels")
     plt.xlabel(x)
     plt.ylabel(y)
     padding_percent = 0.12
@@ -66,9 +66,9 @@ def graph(dataframe, item, path, filter_column=None, filter_value=None):
         bottom=padding_percent
     )
 
-    # Save image
+    print(f"[PYTHON][graph.py] Save image")
     plt.savefig(img_path)
     plt.close()
 
-    # Return markdown
+    print(f"[PYTHON][graph.py] Return markdown")
     return f'![{description}]({os.path.abspath(os.path.join(path, os.path.splitext(os.path.basename(item['source']))[0] + '.png'))}){{width=110%}}\n'

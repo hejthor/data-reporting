@@ -7,7 +7,7 @@ from pandoc import pandoc
 def document(document, output_path):
     if document.get('split'):
 
-        # Get unique values
+        print(f"[PYTHON][document.py] Get unique values")
         uniques = set()
         for item in document['contents']:
             if item.get("table"):
@@ -25,7 +25,7 @@ def document(document, output_path):
                 except pandas.errors.ParserError as e:
                     print(f"[PYTHON][document.py] Error parsing {item['source']}: {e}")
         
-        # Create unique output directories
+        print(f"[PYTHON][document.py] Create unique output directories")
         for unique_value in uniques:
             unique_output_path = os.path.join(output_path, str(unique_value))
             os.makedirs(unique_output_path, exist_ok=True)

@@ -4,16 +4,19 @@ from openpyxl.worksheet.table import Table, TableStyleInfo
 
 def table(dataframe, item, path, filter_column=None, filter_value=None):
 
-    # Save CSV
+    print(f"[PYTHON][table.py] Save CSV")
     file_name = os.path.basename(item['table'])
     save_path = os.path.join(path, file_name)
     dataframe_str = dataframe.astype(str)
     dataframe_str.to_csv(save_path, index=False, sep=item['delimiter'])
 
-    # Format Excel
+    print(f"[PYTHON][table.py] Format Excel")
     excel_save_path = os.path.splitext(save_path)[0] + '.xlsx'
     dataframe.to_excel(excel_save_path, index=False)
+
     try:
+
+        print(f"[PYTHON][table.py] Load Excel file")
         wb = openpyxl.load_workbook(excel_save_path)
         ws = wb.active
 
@@ -31,6 +34,7 @@ def table(dataframe, item, path, filter_column=None, filter_value=None):
             )
         )
 
+        print(f"[PYTHON][table.py] Adjust column widths")
         for col in ws.columns:
             max_length = 0
             col_letter = col[0].column_letter
@@ -44,11 +48,13 @@ def table(dataframe, item, path, filter_column=None, filter_value=None):
             adjusted_width = max_length + 2
             ws.column_dimensions[col_letter].width = adjusted_width
 
+        print(f"[PYTHON][table.py] Save Excel file")
         wb.save(excel_save_path)
+
     except ImportError:
         print("[PYTHON][table.py] openpyxl is not installed. Excel formatting skipped.")
     except Exception as e:
         print(f"[PYTHON][table.py] Error formatting Excel file: {e}")
     
-    # Return markdown
+    print(f"[PYTHON][table.py] Return markdown")
     return dataframe.to_markdown(index=False, tablefmt="pipe", colalign=["left"] * len(dataframe.columns))
