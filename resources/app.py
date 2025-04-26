@@ -5,6 +5,7 @@ import os
 from document import document as _document
 
 def app(parameters_path):
+    
     print(f"[PYTHON][app.py] Reading JSON from path {parameters_path}")
     parameters = json.load(open(parameters_path, 'r'))
     output = parameters['output']

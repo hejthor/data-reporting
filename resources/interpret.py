@@ -11,8 +11,7 @@ def interpret(item, path, filter_column=None, filter_value=None):
 
     # graph
     if item.get("graph"):
-        graph(item, path, filter_column, filter_value)
-        return f'![{item.get("description", "")}]({os.path.abspath(os.path.join(path, os.path.splitext(os.path.basename(item['source']))[0] + '.png'))}){{width=110%}}\n'
+        return graph(item, path, filter_column, filter_value)
 
     # table
     if item.get("table"):
