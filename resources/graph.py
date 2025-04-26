@@ -1,17 +1,8 @@
-import pandas as pd
 import matplotlib.pyplot as plt
 import os
 import numpy as np
 
-def graph(item, path, filter_column=None, filter_value=None):
-
-    # Read CSV
-    df = pd.read_csv(item['source'], delimiter=item['delimiter'], engine="python", on_bad_lines="skip")
-    
-    # Apply filtering if specified
-    if filter_column and filter_value:
-        if filter_column in df.columns and filter_value in df[filter_column].values:
-            df = df[df[filter_column] == filter_value]
+def graph(dataframe, item, path, filter_column=None, filter_value=None):
     
     # Get graph parameters
     x = item.get('x')
@@ -34,37 +25,37 @@ def graph(item, path, filter_column=None, filter_value=None):
     # Plot graph
     if graph_type == 'linechart':
 
-        if legend and legend in df.columns:
-            for key, grp in df.groupby(legend):
+        if legend and legend in dataframe.columns:
+            for key, grp in dataframe.groupby(legend):
                 plt.plot(grp[x], grp[y], label=key)
             plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
         else:
-            plt.plot(df[x], df[y])
+            plt.plot(dataframe[x], dataframe[y])
 
     elif graph_type == 'barchart':
 
-        if legend and legend in df.columns:
+        if legend and legend in dataframe.columns:
             # Grouped bar chart
-            unique_legends = df[legend].unique()
-            x_vals = df[x].unique()
+            unique_legends = dataframe[legend].unique()
+            x_vals = dataframe[x].unique()
             x_indices = np.arange(len(x_vals))
             bar_width = 0.8 / len(unique_legends) if len(unique_legends) > 0 else 0.8
             for i, l_val in enumerate(unique_legends):
-                grp = df[df[legend] == l_val]
+                grp = dataframe[dataframe[legend] == l_val]
                 y_vals = [grp[grp[x] == xv][y].values[0] if xv in grp[x].values else 0 for xv in x_vals]
                 plt.bar(x_indices + i * bar_width, y_vals, width=bar_width, label=str(l_val))
             plt.xticks(x_indices + bar_width * (len(unique_legends)-1)/2, x_vals)
             plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
         else:
-            plt.bar(df[x], df[y])
+            plt.bar(dataframe[x], dataframe[y])
 
     # Add labels
     plt.xlabel(x)
     plt.ylabel(y)
     padding_percent = 0.12
     right_pad = 0.85
-    if legend and legend in df.columns:
-        labels = [str(l) for l in df[legend].unique()]
+    if legend and legend in dataframe.columns:
+        labels = [str(l) for l in dataframe[legend].unique()]
         max_label_len = max((len(label) for label in labels), default=0)
         right_pad = max(0.85 - 0.005 * max_label_len, 0.75)
     plt.tight_layout(rect=[0, 0, right_pad, 1])
