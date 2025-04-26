@@ -1,0 +1,39 @@
+{
+    "output": "output",
+    "documents": [
+        {
+            "template": "input/template.docx",
+            "language": "en",
+            "title": "Data Report",
+            "author": "Thor",
+            "toc": "Contents",
+            "split": "Company",
+            "contents": [
+                { "header1": "Introduction" },
+                { "paragraph": "This is a sample paragraph." },
+                { "pagebreak": true },
+                { "header1": "Analysis" },
+                { "paragraph": "This is a sample paragraph." },
+                { "header2": "Users per department per year" },
+                {
+                    "graph": "barchart",
+                    "description": "Graph: Users per department per year.",
+                    "source": "input/Users per department per year.csv",
+                    "delimiter": ";",
+                    "x": "Year",
+                    "y": "Users",
+                    "legend": "Department",
+                    "background": "#f5f5f5",
+                    "border": "#e6e6e6",
+                    "scale": 1
+                },
+                { "pagebreak": true },
+                {
+                    "table": "input/Users per department per year.csv",
+                    "description": "Table: Users per department per year.",
+                    "delimiter": ";"
+                }
+            ]
+        }
+    ]
+}
