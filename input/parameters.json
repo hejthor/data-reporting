@@ -18,7 +18,7 @@
                 {
                     "graph": "barchart",
                     "description": "Graph: Users per department per year.",
-                    "source": "input/Users per department per year.csv",
+                    "source": "input/data/Users per department per year.csv",
                     "delimiter": ";",
                     "x": "Year",
                     "y": "Users",
@@ -29,8 +29,66 @@
                 },
                 { "pagebreak": true },
                 {
-                    "table": "input/Users per department per year.csv",
+                    "table": "input/data/Users per department per year.csv",
                     "description": "Table: Users per department per year.",
+                    "delimiter": ";"
+                },
+                { "pagebreak": true },
+                { "header2": "Revenue per year" },
+                {
+                    "graph": "linechart",
+                    "description": "Graph: Revenue per year.",
+                    "source": "input/data/Revenue per year.csv",
+                    "delimiter": ";",
+                    "x": "Year",
+                    "y": "Revenue",
+                    "background": "#f5f5f5",
+                    "border": "#e6e6e6",
+                    "scale": 1
+                },
+                { "pagebreak": true },
+                {
+                    "table": "input/data/Revenue per year.csv",
+                    "description": "Table: Revenue per year.",
+                    "delimiter": ";"
+                },
+                { "pagebreak": true },
+                { "header2": "Users by department" },
+                {
+                    "graph": "barchart",
+                    "description": "Graph: Users by department.",
+                    "source": "input/data/Users by department.csv",
+                    "delimiter": ";",
+                    "x": "Department",
+                    "y": "Users",
+                    "background": "#f5f5f5",
+                    "border": "#e6e6e6",
+                    "scale": 1
+                },
+                { "pagebreak": true },
+                {
+                    "table": "input/data/Users by department.csv",
+                    "description": "Table: Users by department.",
+                    "delimiter": ";"
+                },
+                { "pagebreak": true },
+                { "header2": "Expenses per department per year" },
+                {
+                    "graph": "barchart",
+                    "description": "Graph: Expenses per department per year.",
+                    "source": "input/data/Expenses per department per year.csv",
+                    "delimiter": ";",
+                    "x": "Year",
+                    "y": "Expenses",
+                    "legend": "Department",
+                    "background": "#f5f5f5",
+                    "border": "#e6e6e6",
+                    "scale": 1
+                },
+                { "pagebreak": true },
+                {
+                    "table": "input/data/Expenses per department per year.csv",
+                    "description": "Table: Expenses per department per year.",
                     "delimiter": ";"
                 }
             ]
