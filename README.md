@@ -10,15 +10,13 @@
 
 <br>
 <br>
-<br>
-<br>
 
 <p>Document objects and tabular data converted to beautiful reports.</p>
 
+<img src="assets/screenshot.png" width="100%" />
+
 </div>
 
-<br>
-<br>
 <br>
 <br>
 
