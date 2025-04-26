@@ -2,6 +2,11 @@ import matplotlib.pyplot as plt
 import os
 import numpy as np
 
+def wrap_label(label, width=20):
+    # Insert newlines every `width` characters
+    import textwrap
+    return '\n'.join(textwrap.wrap(str(label), width=width))
+
 def graph(dataframe, item, path, filter_column=None, filter_value=None):
     
     print(f"[PYTHON][graph.py] Get graph parameters")
@@ -15,9 +20,14 @@ def graph(dataframe, item, path, filter_column=None, filter_value=None):
     img_path = os.path.join(graphs_path, img_name)
     scale = item.get("scale", 1)
 
+    # Determine max legend label length (no dynamic sizing)
+    legend_labels = []
+    if legend and legend in dataframe.columns:
+        legend_labels = [str(l) for l in dataframe[legend].unique()]
+
     print(f"[PYTHON][graph.py] Create figure")
     fig = plt.figure(
-        figsize=(10 * scale, 6 * scale),
+        figsize=(10 * scale, 5 * scale),
         facecolor=item.get("background", "white")
     )
     fig.patch.set_edgecolor(item.get("border", 'black'))
@@ -28,7 +38,8 @@ def graph(dataframe, item, path, filter_column=None, filter_value=None):
 
         if legend and legend in dataframe.columns:
             for key, grp in dataframe.groupby(legend):
-                plt.plot(grp[x], grp[y], label=key)
+                wrapped_label = wrap_label(key)
+                plt.plot(grp[x], grp[y], label=wrapped_label)
             plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
         else:
             plt.plot(dataframe[x], dataframe[y])
@@ -44,7 +55,8 @@ def graph(dataframe, item, path, filter_column=None, filter_value=None):
             for i, l_val in enumerate(unique_legends):
                 grp = dataframe[dataframe[legend] == l_val]
                 y_vals = [grp[grp[x] == xv][y].values[0] if xv in grp[x].values else 0 for xv in x_vals]
-                plt.bar(x_indices + i * bar_width, y_vals, width=bar_width, label=str(l_val))
+                wrapped_label = wrap_label(l_val)
+                plt.bar(x_indices + i * bar_width, y_vals, width=bar_width, label=wrapped_label)
             plt.xticks(x_indices + bar_width * (len(unique_legends)-1)/2, x_vals)
             plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0.)
         else:
@@ -54,22 +66,32 @@ def graph(dataframe, item, path, filter_column=None, filter_value=None):
     plt.xlabel(x)
     plt.ylabel(y)
     padding_percent = 0.12
-    right_pad = 0.85
+    # Draw the canvas to populate tick labels
+    fig = plt.gcf()
+    fig.canvas.draw()
+    ax = plt.gca()
+    renderer = fig.canvas.get_renderer()
+    y_ticklabels = ax.get_yticklabels()
+    label_widths = [label.get_window_extent(renderer=renderer).width for label in y_ticklabels if label.get_text()]
+    # Base paddings
+    left_pad = 0.11
+    right_pad = 0.95
+    top_pad = 0.92
+    bottom_pad = 0.14
+    # Dynamically increase left pad for wide y-tick labels
+    if label_widths:
+        max_label_width = max(label_widths)
+        # For every 50px above 40px, add 0.01 to left_pad
+        left_pad += max(0, (max_label_width - 40) / 50 * 0.005)
     if legend and legend in dataframe.columns:
         labels = [str(l) for l in dataframe[legend].unique()]
         max_label_len = max((len(label) for label in labels), default=0)
         right_pad = max(0.85 - 0.005 * max_label_len, 0.75)
-    plt.tight_layout(rect=[0, 0, right_pad, 1])
-    plt.subplots_adjust(
-        left=padding_percent/(3/2),
-        right=right_pad,
-        top=1 - padding_percent/2,
-        bottom=padding_percent
-    )
+    plt.subplots_adjust(left=left_pad, right=right_pad, top=top_pad, bottom=bottom_pad)
+
 
     print(f"[PYTHON][graph.py] Save image")
-    plt.savefig(img_path)
+    plt.savefig(img_path, bbox_inches=None)
     plt.close()
-
     print(f"[PYTHON][graph.py] Return markdown")
-    return f'![]({os.path.abspath(img_path)}){{width=110%}}'
+    return f'![{item.get("title", "")}]({os.path.abspath(img_path)}){{width=110%}}'
