@@ -22,9 +22,9 @@ def pandoc(pandoc_json, json, output_path):
         else:
             markdown_content = yaml_meta + pandoc_json
 
-        print(f"[PYTHON][pandoc.py] Save markdown to file")
-        with open(md_file, "w", encoding="utf-8") as f:
-            f.write(markdown_content)
+        # print(f"[PYTHON][pandoc.py] Save markdown to file")
+        # with open(md_file, "w", encoding="utf-8") as f:
+        #     f.write(markdown_content)
 
         print(f"[PYTHON][pandoc.py] Step 2: Convert Markdown to DOCX")
         pypandoc.convert_text(
