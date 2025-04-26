@@ -4,14 +4,21 @@ from openpyxl.worksheet.table import Table, TableStyleInfo
 
 def table(dataframe, item, path, filter_column=None, filter_value=None):
 
-    print(f"[PYTHON][table.py] Save CSV")
+    print(f"[PYTHON][table.py] Get file name")
     file_name = os.path.basename(item['table'])
-    save_path = os.path.join(path, file_name)
+
+    print(f"[PYTHON][table.py] Save CSV")
+    csv_path = os.path.join(path, "CSV")
+    os.makedirs(csv_path, exist_ok=True)
+    save_path = os.path.join(csv_path, file_name)
     dataframe_str = dataframe.astype(str)
     dataframe_str.to_csv(save_path, index=False, sep=item['delimiter'])
 
     print(f"[PYTHON][table.py] Format Excel")
-    excel_save_path = os.path.splitext(save_path)[0] + '.xlsx'
+    excel_path = os.path.join(path, "Excel")
+    os.makedirs(excel_path, exist_ok=True)
+    file_base, _ = os.path.splitext(file_name)
+    excel_save_path = os.path.join(excel_path, file_base + ".xlsx")
     dataframe.to_excel(excel_save_path, index=False)
 
     try:

@@ -27,7 +27,7 @@ def document(document, output_path):
         
         print(f"[PYTHON][document.py] Create unique output directories")
         for unique_value in uniques:
-            unique_output_path = os.path.join(output_path, str(unique_value))
+            unique_output_path = os.path.join(output_path, str(unique_value), document['title'])
             os.makedirs(unique_output_path, exist_ok=True)
             print(f"[PYTHON][document.py] Running pandoc() for {unique_output_path}")
             pandoc(

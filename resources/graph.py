@@ -8,10 +8,11 @@ def graph(dataframe, item, path, filter_column=None, filter_value=None):
     x = item.get('x')
     y = item.get('y')
     legend = item.get('legend')
-    description = item.get('description', '')
     graph_type = item.get('graph', '').lower()
     img_name = os.path.splitext(os.path.basename(item['source']))[0] + '.png'
-    img_path = os.path.join(path, img_name)
+    graphs_path = os.path.join(path, "PNG")
+    os.makedirs(graphs_path, exist_ok=True)
+    img_path = os.path.join(graphs_path, img_name)
     scale = item.get("scale", 1)
 
     print(f"[PYTHON][graph.py] Create figure")
@@ -71,4 +72,4 @@ def graph(dataframe, item, path, filter_column=None, filter_value=None):
     plt.close()
 
     print(f"[PYTHON][graph.py] Return markdown")
-    return f'![{description}]({os.path.abspath(os.path.join(path, os.path.splitext(os.path.basename(item['source']))[0] + '.png'))}){{width=110%}}\n'
+    return f'![]({os.path.abspath(img_path)}){{width=110%}}'
